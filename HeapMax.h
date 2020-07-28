@@ -23,6 +23,7 @@ HeapMax<T>::HeapMax() { return; }
 template <typename T>
 HeapMax<T>::HeapMax(int _size) {
 	this->maxSize = _size;
+	this->Array = new T[this->maxSize];
 	return;
 }
 
@@ -54,4 +55,62 @@ void HeapMax<T>::Delete(T _item, bool& _isDeleted, int _par) {
 template <typename T>
 void HeapMax<T>::ReHeapUp(int _root, int _bot) {
 	
+	int parent = -1;
+
+	if (_bot > _root) {
+		
+		parent = (_root - 1) / 2;
+
+		if (this->Array[parent] < this->Array[_bot]) {
+			this->SwapNode(parent, _bot);
+			ReHeapUp(_root, parent);
+		}
+	}
+	return;
+}
+
+template <typename T>
+void HeapMax<T>::ReHeapDown(int _par, int _bot) {
+	
+	int left, right, max;
+
+	if (left <= _bot) {
+		if (left == _bot) {
+			max = left;
+		}
+		else {
+			if (this->Array[left] < this->Array[right]) {
+				max = right;
+			}
+			else {
+				max = left;
+			}
+		}
+		if (this->Array[max] > this->Array[_bot]) {
+			this->SwapNode(max, _bot);
+			ReHeapDown(max, _bot);
+		}
+	}
+	return;
+}
+
+template <typename T>
+void HeapMax<T>::Retrieve(T& _item, bool& _isFound, int _par) {
+
+	int left = -1, right = -1;
+	left = (2 * _par) + 1;
+	right = (2 * _par) + 2;
+
+	if (_item == this->Array[_par]) {
+		_item = this->Array[_par];
+		_isFound = true;
+		return;
+	}
+	if (left < this->lastNode && !_isFound) {
+		Retrieve(_item, _isFound, left);
+	}
+	if (right < this->lastNode && !_isFound) {
+		Retrieve(_item, _isFound, right);
+	}
+	return;
 }

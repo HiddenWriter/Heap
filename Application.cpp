@@ -72,10 +72,10 @@ int Application::GetHeapStat() {
 
 int Application::GenerateHeap(int _status) {
 	if (_status == 1) {
-		this->ItemList = new HeapMax<ItemType>;
+		this->ItemList = new HeapMax<ItemType>(9);
 	}
 	else if (_status == 2) {
-		this->ItemList = new HeapMin<ItemType>;
+		this->ItemList = new HeapMin<ItemType>(9);
 	}
 	return 1;
 }

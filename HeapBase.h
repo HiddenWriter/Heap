@@ -9,9 +9,9 @@ public:
 
 	virtual int Delete(T _item);
 
-	int Display();
-
 	virtual int Search(T& _item);
+
+	int Display();
 
 	int Clear();
 
@@ -22,6 +22,8 @@ public:
 	bool IsFull();
 
 	bool IsEmpty();
+
+	void SwapNode(int _forward, int _backward);
 
 	virtual void ReHeapDown(int _par, int _bot) = 0;
 
@@ -41,8 +43,6 @@ protected:
 
 template <typename T>
 HeapBase<T>::HeapBase() {
-	maxSize = ARRAY_SIZE;
-	this->Array = new T[maxSize];
 	this->lastNode = 0;
 	return;
 }
@@ -125,4 +125,12 @@ template <typename T>
 int HeapBase<T>::Modify(T _item) {
 	bool isFound = false;
 	return 1;
+}
+
+template <typename T>
+void HeapBase<T>::SwapNode(int _forward, int _backward) {
+	T temp = this->Array[_forward];
+	this->Array[_forward] = this->Array[_backward];
+	this->Array[_backward] = temp;
+	return;
 }
