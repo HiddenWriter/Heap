@@ -69,10 +69,15 @@ bool HeapBase<T>::IsEmpty() {
 
 template <typename T>
 int HeapBase<T>::Display() {
-	for (int i = 0; i < this->lastNode; i++) {
-		std::cout << this->Array[i];
+	if (this->lastNode == 0) {
+		return 0;
 	}
-	return 1;
+	else {
+		for (int i = 0; i < this->lastNode; i++) {
+			std::cout << this->Array[i];
+		}
+		return 1;
+	}
 }
 
 template <typename T>
@@ -83,13 +88,17 @@ int HeapBase<T>::GetLength()const {
 template <typename T>
 int HeapBase<T>::Clear() {
 	this->Array = nullptr;
+	this->lastNode = 0;
 	delete[] this->Array;
+	this->Array = new T[this->maxSize];
+
 	return 1;
 }
 
 template <typename T>
 int HeapBase<T>::Add(T _item) {
-	if (IsFull()) {
+
+	if (IsFull() || Search(_item)) {
 		return 0;
 	}
 	else {
@@ -103,28 +112,46 @@ int HeapBase<T>::Add(T _item) {
 template <typename T>
 int HeapBase<T>::Delete(T _item) {
 	bool isDeleted = false;
-	Delete(_item, isDeleted, 0);
-	
-	if (isDeleted) {
-		this->lastNode--;
-		return 1;
+	if (this->IsEmpty()) {
+		return 0;
 	}
 	else {
-		return 0;
+		Delete(_item, isDeleted, 0);
+
+		if (isDeleted) {
+			this->lastNode--;
+			return 1;
+		}
+		else {
+			return 0;
+		}
 	}
 }
 
 template <typename T>
 int HeapBase<T>::Search(T& _item) {
-	bool isFound = false;
-	Retrieve(_item, isFound);
-	return isFound;
+	if (this->IsEmpty()) {
+		return 0;
+	}
+	else {
+		bool isFound = false;
+		Retrieve(_item, isFound, 0);
+		return isFound;
+	}
 }
 
 template <typename T>
 int HeapBase<T>::Modify(T _item) {
 	bool isFound = false;
-	return 1;
+	if (this->IsEmpty()) {
+		return 0;
+	}
+	else {
+		T temp = _item;
+		this->Delete(_item);
+		this->Add(temp);
+		return 1;
+	}
 }
 
 template <typename T>

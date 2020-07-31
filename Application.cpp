@@ -60,24 +60,33 @@ int Application::Run() {
 }
 
 int Application::GetHeapStat() {
-	std::cout << "\t * * * * * * * * * * * * * * * * * * * * * * * * * *\n";
-	std::cout << "\t * 1. Create Max heap                              *\n";
-	std::cout << "\t * 2. Create Min Heap                              *\n";
-	std::cout << "\t * 0. Exit                                         *\n";
-	std::cout << "\t * * * * * * * * * * * * * * * * * * * * * * * * * *\n";
-	std::cout << ":";
-	std::cin >> this->heapStat;
+
+	while (true) {
+		std::cout << "\t * * * * * * * * * * * * * * * * * * * * * * * * * *\n";
+		std::cout << "\t * 1. Create Max heap                              *\n";
+		std::cout << "\t * 2. Create Min Heap                              *\n";
+		std::cout << "\t * 0. Exit                                         *\n";
+		std::cout << "\t * * * * * * * * * * * * * * * * * * * * * * * * * *\n";
+		std::cout << ":";
+		std::cin >> this->heapStat;
+		if (this->heapStat < 3 && this->heapStat > -1) {
+			break;
+		}
+		else {
+			std::cout << "\n\t Invalid command \n";
+		}
+	}
 	return this->heapStat;
 }
 
-int Application::GenerateHeap(int _status) {
+void Application::GenerateHeap(int _status) {
 	if (_status == 1) {
 		this->ItemList = new HeapMax<ItemType>(9);
 	}
 	else if (_status == 2) {
 		this->ItemList = new HeapMin<ItemType>(9);
 	}
-	return 1;
+	return;
 }
 
 int Application::GetCommand() {
@@ -128,25 +137,69 @@ int Application::GetCommand() {
 }
 
 int Application::Add() {
-    
+	ItemType temp;
+	temp.SetAllRecordFromUser();
+	if (this->ItemList->Add(temp)) {
+		std::cout << "\n\t Successfully Done. \n";
+		return 1;
+	}
+	else {
+		std::cout << "\n\t Error. \n";
+		return 0;
+	}
 }
 
 int Application::Delete() {
-  
+	ItemType temp;
+	temp.SetIDFromUser();
+	if (this->ItemList->Delete(temp)) {
+		std::cout << "\n\t Successfully Done. \n";
+		return 1;
+	}
+	else {
+		std::cout << "\n\t Error. \n";
+		return 0;
+	}
 }
 
 int Application::Search() {
-   
+	ItemType temp;
+	temp.SetIDFromUser();
+	if (this->ItemList->Search(temp)) {
+		std::cout << temp;
+		return 1;
+	}
+	else {
+		std::cout << "\n\t Error. \n";
+		return 0;
+	}
 }
 
 int Application::Display() {
-   
+	if (this->ItemList->Display()) { return 1; }
+	else {
+		std::cout << "\n\t Array is empty. \n";
+		return 0;
+	}
 }
 
 int Application::Modify() {
-	
+	ItemType temp;
+	std::cout << "\n\t Item ID to modify : ";
+	temp.SetIDFromUser();
+	std::cout << "\n\t Item Name to modify : ";
+	temp.SetNameFromUser();
+	if (this->ItemList->Modify(temp)) {
+		std::cout << "\n\t Successfully done. \n";
+		return 1;
+	}
+	else {
+		std::cout << "\n\t Error \n";
+		return 0;
+	}
 }
 
 int Application::Clear() {
-	
+	this->ItemList->Clear();
+	return 1;
 }

@@ -23,7 +23,7 @@ public:
 
 	int Clear();
 
-	int GenerateHeap(int _status);
+	void GenerateHeap(int _status);
 private:
 
 	int heapStat;

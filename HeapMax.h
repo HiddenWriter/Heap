@@ -74,6 +74,9 @@ void HeapMax<T>::ReHeapDown(int _par, int _bot) {
 	
 	int left, right, max;
 
+	left = (2 * _par) + 1;
+	right = (2 * _par) + 2;
+
 	if (left <= _bot) {
 		if (left == _bot) {
 			max = left;

@@ -28,7 +28,7 @@ HeapMin<T>::HeapMin() {
 template <typename T>
 HeapMin<T>::HeapMin(int _size) {
 	this->maxSize = _size;
-	this->Array = new T[maxSize];
+	this->Array = new T[this->maxSize];
 	return;
 }
 
@@ -96,7 +96,7 @@ void HeapMin<T>::Retrieve(T& _item, bool& _isFound, int _par) {
 	if (left < this->lastNode && !_isFound) {
 		Retrieve(_item, _isFound, left);
 	}
-	if (right < this->lastNode < _item && !_isFound) {
+	if (right < this->lastNode&& !_isFound) {
 		Retrieve(_item, _isFound, right);
 	}
 	return;
